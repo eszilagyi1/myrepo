@@ -1,0 +1,78 @@
+---
+title: "Exam 2"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# College Scorecard 
+mean(college_scorecard$earnings_med)
+library(dplyr)
+library(tidyr)
+
+mean(college_scorecard$earnings_med, na.rm = T)
+sd(college_scorecard$earnings_med, na.rm = T)
+var(college_scorecard$earnings_med, na.rm = T)
+
+small_scorecard = college_scorecard[college_scorecard$year=="2014",]
+data = college_scorecard[college_scorecard$year== "2015",]
+small_scorecard = rbind(small_scorecard, data)
+small_scorecard = small_scorecard[small_scorecard$pred_degree_awarded_ipeds=="3",]
+small_scorecard1 = small_scorecard[small_scorecard$state_abbr=="TX",]
+small_scorecard2 = small_scorecard[small_scorecard$state_abbr=="LA",]
+small_scorecard = rbind(small_scorecard1,small_scorecard2)
+                    
+avgTX = small_scorecard[small_scorecard$state_abbr=="TX",]
+avgTX = mean(avgTX$count_working,na.rm=T)
+sumTX = small_scorecard[small_scorecard$state_abbr=="TX",]
+sumTX = sum(sumTX$count_working,na.rm=T)
+
+avgLA = small_scorecard[small_scorecard$state_abbr=="LA",]
+avgLA = mean(avgLA$count_working,na.rm=T)
+sumLA = small_scorecard[small_scorecard$state_abbr=="LA",]
+sumLA = sum(sumLA$count_working,na.rm=T)
+
+even_smaller_scorecard = data.frame(avgTX,sumTX,avgLA,sumLA)
+
+library(ggplot2)
+percent = small_scorecard$count_working / 
+(small_scorecard$count_working+small_scorecard$count_not_working
+bar = ggplot(even_smaller_scorecard,aes(X=state_abbr, Y=))
+
+```{r}
+# Questions on Avocado sales
+library(stringr)
+avocados  = avocados %>%
+  mutate(year = str_sub(date,1,4))
+```
+
+```{r}
+
+# Titanic Qs
+titanic = Titanic
+sum(titanic$female==1) # Counts number of females
+sum(titanic$female==0)# Counts number of males
+sum(titanic$survived==1)/nrow(titanic) # Percentage of survivors
+
+men = titanic[titanic$female==0,]
+women = titanic[titanic$female==1,]
+
+men.survived = sum(men$survived==1)/nrow(men)
+women.survived = sum(women$survived==1)/nrow(women)
+men.var = var(men$survived)
+women.var = var(women$survived)
+survivordata = data.frame(men.var,men.survived,women.var,women.survived)
+survivordata
+
+library(dplyr)
+
+titanic = titanic %>% mutate(first_class = ifelse(class==1,1,0))
+first.class = sum(titanic$first_class==1)
+not.first.class = sum(titanic$first_class!=1)
+results = data.frame(first.class,not.first.class)
+results
+
+```
+# Bonus: My Heart Goes on
+
